@@ -283,3 +283,118 @@ The code for our plugin is:
 
 # Adding additional fields to the product editing page
 
+## Registering Meta Boxes
+
+* We need a 'product details' section in the product post type editor.
+* We can create this section using `add_meta_box()`;
+* The `add_meta_box()` function was introduced in Version 2.5. It allows plugin developers to add sections to the Write Post, Write Page, and Write Link editing pages. Now, we can add these sections to our custom post type.
+
+### Usage:
+
+<?php add_meta_box( $id, $title, $callback, $page, $context, $priority, $callback_args ); ?> 
+
+**Parameters:**
+
+`$id` - HTML 'id' attribute of the edit screen section 
+
+`$title` - Title of the edit screen section, visible to user 
+
+`$callback` - Function that prints out the HTML for the edit screen section. 
+
+`$page` - The type of Write screen on which to show the edit screen section ('post', 'page', 'link', or 'custom_post_type') 
+
+`$context` - The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') 
+
+`$priority` - The priority within the context where the boxes should show ('high' or 'low') 
+
+`$callback_args` -  Arguments to pass into your callback function. The callback will receive the $post object and whatever parameters are passed through this variable. 
+
+### Our Plugin Code:
+
+        function register_meta_boxes(){        
+                add_meta_box('product_meta_box' ,'Product Details','product_meta_box' ,'product','normal','high' );
+        }
+
+* The code above creates a meta box called **product_meta_box**
+* It sets the title for the box to **'Product details'**
+* Calls the **product_meta_box** function which renders the HTML form fields used to enter the product's price.
+* Adds the meta box to the **product** post type editing screen
+* Adds the meta box to the **normal** screen section (this means under the Wordpress editor).
+* Sets the priority of the box to **high**, so it should appear directly under the 'editor', and not lower.
+
+## Adding the meta box form fields
+
+        function product_meta_box($post_id){
+            global $post;
+
+                $nonce_value = wp_create_nonce( plugin_basename(__FILE__) );
+
+                $formdata = get_post_meta($post->ID, '_product_meta');
+
+                ?>
+                <input type="hidden" name="my_nonce" id="myplugin_noncename" value="<?php echo $nonce_value; ?>" />
+                <label for="product_price">Price</label>
+                <input type="text" name="product_price" value="<?php echo $formdata[0]['product_price']?>" size="25" /> USD
+                <?php
+
+        }
+`global $post;` - include the $post variable, we need the post id so we can retrieve the current post's meta data (or custom fields).
+
+`$nonce_value = wp_create_nonce( plugin_basename(__FILE__) );` - we must create a unique nonce field so we can validate the form data when saving the product.
+
+`$formdata = get_post_meta($post->ID, '_product_meta');` - retrieve any saved values in our post meta field / custom field called '_product_meta'.
+
+## Saving the meta box form values
+
+function product_save($post_id){
+
+         // verify this came from our editing screen and with proper authorization, 
+         // because save_post can be triggered at other times
+          if ( !wp_verify_nonce( $_POST['my_nonce'], plugin_basename(__FILE__) )) {
+
+            return $post_id;
+          }
+         
+          // verify if this is an auto save routine. 
+          // If our form has not been submitted, we dont want to do anything
+          if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+            return $post_id;
+
+
+          // Check permissions
+          if ( ( 'product' == $_POST['post_type'] ) && ( !current_user_can( 'manage_products', $post_id ) ) ) {
+             return $post_id;
+          }
+
+          // OK, we're authenticated: we need to find and save the data
+          $data = array(
+                'product_price' => $_POST['product_price'],
+          );
+          
+          // If this is the first time when we save the data, add the post's custom field:
+          if(get_post_meta($post_id, '_product_meta') == ""){
+
+              add_post_meta($post_id, '_product_meta', $data);
+
+          // If the custom field already exist, update it's value.
+          }elseif($data != get_post_meta($post_id, '_product_meta', true)){
+
+              update_post_meta($post_id, '_product_meta', $data);
+
+          }
+
+    }
+
+# Screenshots
+
+## Product Editing Page:
+
+![Editing a product][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_editing.jpg]
+
+## Product Listing:
+
+![Product Listing][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_list.jpg]
+
+## Product Categories Taxonomy:
+
+![Product Listing][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_categories.jpg.jpg]
