@@ -73,6 +73,8 @@
 
 # Creating the product post type
 
+* Next we register the new post type like so: 
+        <?php
         function register_product_posttype(){
 
             register_post_type('product', array(
@@ -112,14 +114,15 @@
                         )
             );
         }
+        ?>
 
 ## register_post_type() breakdown:
 
-`register_post_type($post_type, $args);`
+**register_post_type(__$post_type__, __$arguments__);**
 
 ### Parameters:
 * `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
-* `$args` contains an array of arguments, which defines the post type's behavior, from text that appears in menus and editing forms to capabilities and editor features.
+* `$arguments` contains an array of arguments, which defines the post type's behavior, from text that appears in menus and editing forms to capabilities and editor features.
 
 ### Arguments:
 
@@ -175,7 +178,19 @@
 * 10 - below Media
 * 20 - below Pages
 
+**'hierarchical' => false,**
+
+* `hierarchical` TRUE/FALSE - Whether the post type is hierarchical. Allows Parent to be specified. In this case, the products are not hierarhical.
+
+**'taxonomies' => array('product_category'),**
+
+* An array of registered taxonomies that will be used with this post type. This can be use in lieu of calling [register_taxonomy_for_object_type(http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type)]() directly. Taxonomies still need to be registered with [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy).
+
+In our case we assign the `product_category` taxonomy to the `product` post type.
+
 # Creating the product categories taxonomy
+
+* Next we register the new post type like so:
 
         <?php
 
