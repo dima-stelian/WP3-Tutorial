@@ -346,7 +346,7 @@ The code for our plugin is:
 
 ## Saving the meta box form values
 
-function product_save($post_id){
+         function product_save($post_id){
 
          // verify this came from our editing screen and with proper authorization, 
          // because save_post can be triggered at other times
@@ -387,14 +387,8 @@ function product_save($post_id){
 
 # Screenshots
 
-## Product Editing Page:
+![Editing a product](http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_editing.jpg)
 
-![Editing a product][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_editing.jpg]
+![Product Listing](http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_list.jpg)
 
-## Product Listing:
-
-![Product Listing][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_list.jpg]
-
-## Product Categories Taxonomy:
-
-![Product Listing][http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_categories.jpg.jpg]
+![Product Categories](http://github.com/dsbecmedia/WP3-Tutorial/raw/master/screenshots/scr_product_categories.jpg)
