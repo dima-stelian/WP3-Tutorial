@@ -149,15 +149,29 @@
 ** **'page-attributes'** (template and menu order) (hierarchical must be true)
 ** [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
 
-* `'publicly_queryable' => true,` - Product queries can be performed from the front end. Important if you want to create a products listing page.
-* `'exclude_from_search' => false,` - Include products in search results.
-* `'show_in_nav_menus'  => true,` - Product post type is available for selection in navigation menus.
-* `'show_ui' => true,` - Generate a default UI for managing products.
-* `'menu_position' => 5,` - The position in the menu order the post type should appear.
-** Default: null - defaults to below Comments
-** 5 - below Posts
-** 10 - below Media
-** 20 - below Pages
+**'publicly_queryable' => true,**
+
+* Product queries can be performed from the front end. Important if you want to create a products listing page.
+
+**'exclude_from_search' => false,**
+
+* Include products in search results.
+
+**'show_in_nav_menus'  => true,**
+
+* Product post type is available for selection in navigation menus.
+
+**'show_ui' => true,**
+
+* Generate a default UI for managing products.
+
+**'menu_position' => 5,**
+
+* The position in the menu order the post type should appear.
+* Default: null - defaults to below Comments
+* 5 - below Posts
+* 10 - below Media
+* 20 - below Pages
 
 # Creating the product categories taxonomy
 
