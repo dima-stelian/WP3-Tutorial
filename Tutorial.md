@@ -241,17 +241,45 @@
 
 **'labels' => array()**
 
-* An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones. For more information [visit the Wordpress register_taxonomy() page](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
+* An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones. 
+
+* For more information [visit the Wordpress register_taxonomy() page](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
 
 **'hierarchical' => true**
 
 * `hierarchical` sets wether this taxonomy is hierarchical (have descendants) like categories or not hierarchical like tags. In our case, the product categories taxonomy is hierarchical.
 
-**'capabilities' => array(
-                       'manage_terms' => 'manage_product_categories',
-                     ),**
+**'capabilities' => array()***
+
+*  _(array) (optional)_ An array of the capabilities for this taxonomy. You can define specific capabilities for editing or deleting a taxonomies as [seen here](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments). We used one capability to handle all actions. By default the *term* capabilities are used, meaning that any user that can edit categories or tags, can also edit product categories. [More Info](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments)
 
 # Adding product specific capabilities
+
+If you add custom capabilities to your post types or taxonomies, you must add those capabilities to a user role. To understand how Roles and Capabilities work, please read the Wordpress Codex Page for [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities).
+
+The code for our plugin is:
+
+        function add_plugin_capabilities(){
+
+            // We are adding our capabilities to the administrator role, 
+            // meaning only the admin can edit products or product categories.
+
+            // get the administrator role, so we can add our capabilities.
+            $role = get_role('administrator');
+
+            // We create an array which contain our custom capabilities;
+            $caplist = array(
+                'manage_products',
+                'manage_product_categories',
+            );
+
+            // Next, we add each capability to the 'administrator'.
+            foreach($caplist as $cap){
+                if( ! $role->has_cap($cap)){
+                    $role->add_cap($cap);
+                }
+            }
+        }
 
 # Adding additional fields to the product editing page
 
