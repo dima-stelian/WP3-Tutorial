@@ -77,7 +77,7 @@ function register_product_posttype(){
                 'capabilities'   => array(
                         'manage_products',
                         ),
-                'public' => true,
+                'public' => false,
                 'publicly_queryable' => true,
                 'show_ui' => true,
                 'query_var' => true,

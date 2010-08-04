@@ -107,8 +107,9 @@
 ## register_post_type() breakdown:
 
 `register_post_type($post_type, $args);`
-- `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
-- `$args` contains the post type's configuration, from text that appears in menus and editing forms to capabilities and editor features.
+
+* `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
+* `$args` contains the post type's configuration, from text that appears in menus and editing forms to capabilities and editor features.
 
 # Creating the product categories taxonomy
 
