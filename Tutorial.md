@@ -185,7 +185,7 @@
 **'taxonomies' => array('product_category'),**
 
 * An array of registered taxonomies that will be used with this post type. 
-* This can be use instead of calling [register_taxonomy_for_object_type(http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type)]() directly. 
+* This can be use instead of calling [register_taxonomy_for_object_type()](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type) directly. 
 * Taxonomies still need to be registered with [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy).
 * In our case we assign the `product_category` taxonomy to the `product` post type.
 
@@ -197,14 +197,8 @@
 
         function register_product_category_taxonomy(){
 
-                register_taxonomy(
-                        'product_category',
-                        array( 'product' ),
-                        array(
-                            'public' => true,
-                            'show_ui' => true,
-                            'hierarchical' => true,
-                            '_builtin'     => false,
+                register_taxonomy( 'product_category', 'product' ,array(                            
+                             'hierarchical' => true,                            
                             'capabilities' => array(
                                     'manage_terms' => 'manage_product_categories',
                                     ),
@@ -226,10 +220,36 @@
                             ),
                        )
                 );
-
         };
 
         ?>
+
+## register_taxonomy() breakdown:
+
+**register_taxonomy(__$taxonomy__, __$object_type__, $arguments);**
+
+### Parameters:
+
+* `$taxonomy` -  The name of the taxonomy. 
+
+* `$object_type` - Name of the object type for the taxonomy object. In our case `$object_type` is **product** (the handle of our custom post type).
+
+* `$arguments` - contains an array of arguments, which defines the taxonomy behavior, from text that appears in menus and editing forms to capabilities and editor features.
+
+
+### Arguments:
+
+**'labels' => array()**
+
+* An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones. For more information [visit the Wordpress register_taxonomy() page](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
+
+**'hierarchical' => true**
+
+* `hierarchical` sets wether this taxonomy is hierarchical (have descendants) like categories or not hierarchical like tags. In our case, the product categories taxonomy is hierarchical.
+
+**'capabilities' => array(
+                       'manage_terms' => 'manage_product_categories',
+                     ),**
 
 # Adding product specific capabilities
 
