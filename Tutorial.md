@@ -28,8 +28,8 @@
 
 # General Information
 
-- You can create custom post types with the register_post_type() function.
-- You can create custom taxonomies with the register_taxonomy() function.
+- You can create custom post types with the [register_post_type()](http://codex.wordpress.org/Function_Reference/register_post_type) function.
+- You can create custom taxonomies with the [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy) function.
 - You can define custom post types either in the functions.php file in your theme directory or in a plugin.
 - In this tutorial we will create a plugin to demonstrate custom post types, taxonomies and capabilities.
 
@@ -37,14 +37,17 @@
 - Create a file in wp-content/plugins/ named products.php (wp-content/plugins/products.php);
 - Add some basic plugin info:
         <?php
+
         /*
         Plugin Name: Products Plugin
         Description: Adds Product Post Type
         */
+
         ?>
 
 - Add initialization functions:
         <?php
+
         // Register and defined custom post type.
         // In this case: ‘Product Post Type’, similar to regular posts.
         add_action( 'init',        'register_product_posttype');
@@ -57,15 +60,95 @@
         add_action( 'init',        'add_plugin_capabilities');
 
         // For a product we need to enter additional fields, like the price.
-        // We can use custom fields or add additional form fields to the product editing page using the register_meta_boxes() function.
+        // We can use custom fields or add additional form fields to the product editing page
+        // using the register_meta_boxes() function.
         add_action( 'admin_menu',  'register_meta_boxes');
 
         //Grabs the custom metabox POST data (the price field’s value) and saves it to DB
         add_action( 'save_post',    'product_save' );
+
         ?>
+
 # Creating the product post type
 
+        function register_product_posttype(){
+
+            register_post_type('product', array(
+                        'labels' =>  array(
+                            'name' => 'Products',
+                            'singular_name' => 'Product',
+                            'add_new' => 'Add New',
+                            'add_new_item' => 'Add New Product',
+                            'edit_item' => 'Edit Product',
+                            'new_item' => 'New Product',
+                            'view_item' => 'View Product',
+                            'search_items' => 'Search Products',
+                            'not_found' =>  'No products found',
+                            'not_found_in_trash' => 'No products found in Trash',
+                            'parent_item_colon' => 'Parent Product'
+                        ),
+                        'capabilities'   => array(
+                                'manage_products',
+                                ),
+                        'public' => true,
+                        'publicly_queryable' => true,
+                        'show_ui' => true,
+                        'query_var' => true,
+                        'rewrite' => true,
+                        'hierarchical' => false,
+                        'menu_position' => 5,
+                        'supports' => array('title','editor','thumbnail','custom','comments'),
+                        'taxonomies' => array('product_category'),
+                         '_builtin' => false,
+                        )
+            );
+        }
+
+## register_post_type() breakdown:
+
+`register_post_type($post_type, $args);`
+- `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
+- `$args` contains the post type's configuration, from text that appears in menus and editing forms to capabilities and editor features.
+
 # Creating the product categories taxonomy
+
+        <?php
+
+        function register_product_category_taxonomy(){
+
+                register_taxonomy(
+                        'product_category',
+                        array( 'product' ),
+                        array(
+                            'public' => true,
+                            'show_ui' => true,
+                            'hierarchical' => true,
+                            '_builtin'     => false,
+                            'capabilities' => array(
+                                    'manage_terms' => 'manage_product_categories',
+                                    ),
+                            'labels' => array(
+                                'name' => 'Product Categories',
+                                'singular_name' => 'Product Cateogry',
+                                'search_items' => 'Search Product Categories',
+                                'popular_items' => 'Popular Product Categories',
+                                'all_items' => 'All Product Categories',
+                                'parent_item' => 'Parent Product Category',
+                                'parent_item_colon' => 'Parent Product Category',
+                                'edit_item' => 'Edit Product Category',
+                                'update_item' => 'Edit Product Category',
+                                'add_new_item' => 'Add New Category',
+                                'new_item_name' => 'New Product Category',
+                                'separate_items_with_commas' => 'separate product categories with commas',
+                                'add_or_remove_items' => 'add or remove product categories',
+                                'choose_from_most_used' => 'choose from most used',
+                            ),
+                       )
+                );
+
+        };
+
+        ?>
 
 # Adding product specific capabilities
 
