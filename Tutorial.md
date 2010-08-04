@@ -184,9 +184,10 @@
 
 **'taxonomies' => array('product_category'),**
 
-* An array of registered taxonomies that will be used with this post type. This can be use in lieu of calling [register_taxonomy_for_object_type(http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type)]() directly. Taxonomies still need to be registered with [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy).
-
-In our case we assign the `product_category` taxonomy to the `product` post type.
+* An array of registered taxonomies that will be used with this post type. 
+* This can be use instead of calling [register_taxonomy_for_object_type(http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type)]() directly. 
+* Taxonomies still need to be registered with [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy).
+* In our case we assign the `product_category` taxonomy to the `product` post type.
 
 # Creating the product categories taxonomy
 
