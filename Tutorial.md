@@ -16,7 +16,9 @@
     // Creates custom capabilities for the ‘administrator’ role to manage products and product categories
     function add_plugin_capabilities(){};
 
-    // For a product we need to enter additional fields, like the price. We can use custom fields or add additional form fields to the product editing page using the register_meta_boxes() function.
+    // For a product we need to enter additional fields, like the price. 
+    // We can use custom fields or add additional form fields to the 
+    // product editing page using the register_meta_boxes() function.
     function register_meta_boxes(){};
 
     // Holds the HTML for the custom meta box (the price field)
@@ -71,6 +73,8 @@
 
 # Creating the product post type
 
+* Next we register the new post type like so: 
+        <?php
         function register_product_posttype(){
 
             register_post_type('product', array(
@@ -110,14 +114,15 @@
                         )
             );
         }
+        ?>
 
 ## register_post_type() breakdown:
 
-`register_post_type($post_type, $args);`
+**register_post_type(__$post_type__, __$arguments__);**
 
 ### Parameters:
 * `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
-* `$args` contains an array of arguments, which defines the post type's behavior, from text that appears in menus and editing forms to capabilities and editor features.
+* `$arguments` contains an array of arguments, which defines the post type's behavior, from text that appears in menus and editing forms to capabilities and editor features.
 
 ### Arguments:
 
@@ -173,20 +178,27 @@
 * 10 - below Media
 * 20 - below Pages
 
+**'hierarchical' => false,**
+
+* `hierarchical` TRUE/FALSE - Whether the post type is hierarchical. Allows Parent to be specified. In this case, the products are not hierarhical.
+
+**'taxonomies' => array('product_category'),**
+
+* An array of registered taxonomies that will be used with this post type. 
+* This can be use instead of calling [register_taxonomy_for_object_type()](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type) directly. 
+* Taxonomies still need to be registered with [register_taxonomy()](http://codex.wordpress.org/Function_Reference/register_taxonomy).
+* In our case we assign the `product_category` taxonomy to the `product` post type.
+
 # Creating the product categories taxonomy
+
+* Next we register the new post type like so:
 
         <?php
 
         function register_product_category_taxonomy(){
 
-                register_taxonomy(
-                        'product_category',
-                        array( 'product' ),
-                        array(
-                            'public' => true,
-                            'show_ui' => true,
-                            'hierarchical' => true,
-                            '_builtin'     => false,
+                register_taxonomy( 'product_category', 'product' ,array(                            
+                             'hierarchical' => true,                            
                             'capabilities' => array(
                                     'manage_terms' => 'manage_product_categories',
                                     ),
@@ -208,12 +220,66 @@
                             ),
                        )
                 );
-
         };
 
         ?>
 
+## register_taxonomy() breakdown:
+
+**register_taxonomy(__$taxonomy__, __$object_type__, $arguments);**
+
+### Parameters:
+
+* `$taxonomy` -  The name of the taxonomy. 
+
+* `$object_type` - Name of the object type for the taxonomy object. In our case `$object_type` is **product** (the handle of our custom post type).
+
+* `$arguments` - contains an array of arguments, which defines the taxonomy behavior, from text that appears in menus and editing forms to capabilities and editor features.
+
+
+### Arguments:
+
+**'labels' => array()**
+
+* An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones. 
+
+* For more information [visit the Wordpress register_taxonomy() page](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
+
+**'hierarchical' => true**
+
+* `hierarchical` sets wether this taxonomy is hierarchical (have descendants) like categories or not hierarchical like tags. In our case, the product categories taxonomy is hierarchical.
+
+**'capabilities' => array()***
+
+*  _(array) (optional)_ An array of the capabilities for this taxonomy. You can define specific capabilities for editing or deleting a taxonomies as [seen here](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments). We used one capability to handle all actions. By default the *term* capabilities are used, meaning that any user that can edit categories or tags, can also edit product categories. [More Info](http://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments)
+
 # Adding product specific capabilities
+
+If you add custom capabilities to your post types or taxonomies, you must add those capabilities to a user role. To understand how Roles and Capabilities work, please read the Wordpress Codex Page for [Roles and Capabilities](http://codex.wordpress.org/Roles_and_Capabilities).
+
+The code for our plugin is:
+
+        function add_plugin_capabilities(){
+
+            // We are adding our capabilities to the administrator role, 
+            // meaning only the admin can edit products or product categories.
+
+            // get the administrator role, so we can add our capabilities.
+            $role = get_role('administrator');
+
+            // We create an array which contain our custom capabilities;
+            $caplist = array(
+                'manage_products',
+                'manage_product_categories',
+            );
+
+            // Next, we add each capability to the 'administrator'.
+            foreach($caplist as $cap){
+                if( ! $role->has_cap($cap)){
+                    $role->add_cap($cap);
+                }
+            }
+        }
 
 # Adding additional fields to the product editing page
 
