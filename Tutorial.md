@@ -121,28 +121,43 @@
 
 ### Arguments:
 
-*labels*
-* _(optional)_ labels - An array of labels for this post type. Basicaly these labels are used as text in the admin area, in the post type's editing pages. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+**labels**
 
-*description*
+* _(optional)_ An array of labels for this post type. Basicaly these labels are used as text in the admin area, in the post type's editing pages. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+
+**description**
+
 * _(optional)_ A short descriptive summary of what the post type is.
 
-*capabilities*
-*_(array) (optional)_ An array of the capabilities for this post type. You can define specific capabilities for editing, deleting or publishing a post type as [seen here](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments). We used one capability to handle all actions. By default the *post* capabilities are used, meaning that any user that can edit a post, can also edit a product. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+**capabilities**
 
-*supports*
-*_(array) (optional)_ Tells the post type to use WordPress features like a title field, editor or post thumbnail.
-* *valid arguments:*
-**'title'
-**'editor' (content)
-**'author'
-**'thumbnail' (featured image) (current theme must also support post-thumbnails)
-**'excerpt'
-**'trackbacks'
-**'custom-fields'
-**'comments' (also will see comment count balloon on edit screen)
-**'revisions' (will store revisions)
-**'page-attributes' (template and menu order) (hierarchical must be true)
+* _(array) (optional)_ An array of the capabilities for this post type. You can define specific capabilities for editing, deleting or publishing a post type as [seen here](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments). We used one capability to handle all actions. By default the *post* capabilities are used, meaning that any user that can edit a post, can also edit a product. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+
+**supports**
+
+* _(array) (optional)_ Tells the post type to use WordPress features like a title field, editor or post thumbnail.
+* **valid arguments:**
+** **'title'**
+** **'editor'** (content)
+** **'author'**
+** **'thumbnail'** (featured image) (current theme must also support post-thumbnails)
+** **'excerpt'**
+** **'trackbacks'**
+** **'custom-fields'**
+** **'comments'** (also will see comment count balloon on edit screen)
+** **'revisions'** (will store revisions)
+** **'page-attributes'** (template and menu order) (hierarchical must be true)
+** [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+
+* `'publicly_queryable' => true,` - Product queries can be performed from the front end. Important if you want to create a products listing page.
+* `'exclude_from_search' => false,` - Include products in search results.
+* `'show_in_nav_menus'  => true,` - Product post type is available for selection in navigation menus.
+* `'show_ui' => true,` - Generate a default UI for managing products.
+* `'menu_position' => 5,` - The position in the menu order the post type should appear.
+** Default: null - defaults to below Comments
+** 5 - below Posts
+** 10 - below Media
+** 20 - below Pages
 
 # Creating the product categories taxonomy
 
