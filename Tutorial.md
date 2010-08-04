@@ -36,16 +36,15 @@
 # Initializing the Plugin.
 - Create a file in wp-content/plugins/ named products.php (wp-content/plugins/products.php);
 - Add some basic plugin info:
-    <?php
+        <?php
         /*
         Plugin Name: Products Plugin
         Description: Adds Product Post Type
         */
-    ?>
+        ?>
 
 - Add initialization functions:
-    <?php
-
+        <?php
         // Register and defined custom post type.
         // In this case: ‘Product Post Type’, similar to regular posts.
         add_action( 'init',        'register_product_posttype');
@@ -63,7 +62,7 @@
 
         //Grabs the custom metabox POST data (the price field’s value) and saves it to DB
         add_action( 'save_post',    'product_save' );
-    ?>
+        ?>
 # Creating the product post type
 
 # Creating the product categories taxonomy
