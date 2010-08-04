@@ -90,21 +90,21 @@ function register_product_posttype(){
 
 }
 
-function add_plugin_capabilities(){
+    function add_plugin_capabilities(){
 
-    $role = get_role('administrator');
+        $role = get_role('administrator');
 
-    $caplist = array(
-        'manage_products',
-        'manage_product_categories',
-    );
+        $caplist = array(
+            'manage_products',
+            'manage_product_categories',
+        );
 
-    foreach($caplist as $cap){
-        if( ! $role->has_cap($cap)){
-            $role->add_cap($cap);
+        foreach($caplist as $cap){
+            if( ! $role->has_cap($cap)){
+                $role->add_cap($cap);
+            }
         }
     }
-}
 
 function register_meta_boxes(){
       //add_meta_box($id, $title, $callback, $page, $context, $priority, $callback_args);
