@@ -137,17 +137,17 @@
 
 * _(array) (optional)_ Tells the post type to use WordPress features like a title field, editor or post thumbnail.
 * **valid arguments:**
-* * **'title'**
-* * **'editor'** (content)
-* * **'author'**
-* * **'thumbnail'** (featured image) (current theme must also support post-thumbnails)
-* * **'excerpt'**
-* * **'trackbacks'**
-* * **'custom-fields'**
-* * **'comments'** (also will see comment count balloon on edit screen)
-* * **'revisions'** (will store revisions)
-* * **'page-attributes'** (template and menu order) (hierarchical must be true)
-* * [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+    * **'title'**
+    * **'editor'** (content)
+    * **'author'**
+    * **'thumbnail'** (featured image) (current theme must also support post-thumbnails)
+    * **'excerpt'**
+    * **'trackbacks'**
+    * **'custom-fields'**
+    * **'comments'** (also will see comment count balloon on edit screen)
+    * **'revisions'** (will store revisions)
+    * **'page-attributes'** (template and menu order) (hierarchical must be true)
+    * [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
 
 **'publicly_queryable' => true,**
 
