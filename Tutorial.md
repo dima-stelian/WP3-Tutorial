@@ -16,7 +16,9 @@
     // Creates custom capabilities for the ‘administrator’ role to manage products and product categories
     function add_plugin_capabilities(){};
 
-    // For a product we need to enter additional fields, like the price. We can use custom fields or add additional form fields to the product editing page using the register_meta_boxes() function.
+    // For a product we need to enter additional fields, like the price. 
+    // We can use custom fields or add additional form fields to the 
+    // product editing page using the register_meta_boxes() function.
     function register_meta_boxes(){};
 
     // Holds the HTML for the custom meta box (the price field)
