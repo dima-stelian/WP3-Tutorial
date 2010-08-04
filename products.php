@@ -8,20 +8,15 @@ Version: 1.0.0
 Author URI: #
 */
 
-
-if(is_admin()){
-
-
     
-    add_action( 'init',        'register_product_posttype');
-    add_action( 'init',        'register_product_category_taxonomy');
-    add_action( 'init',        'add_plugin_capabilities');
+add_action( 'init',        'register_product_posttype');
+add_action( 'init',        'register_product_category_taxonomy');
+add_action( 'init',        'add_plugin_capabilities');
 
-    add_action( 'admin_menu',  'register_meta_boxes');
-    add_action( 'save_post',    'product_save' );
+add_action( 'admin_menu',  'register_meta_boxes');
+add_action( 'save_post',    'product_save' );
 
-    
-}
+
 
 
 function register_product_category_taxonomy(){
@@ -30,10 +25,8 @@ function register_product_category_taxonomy(){
             'product_category',
             array( 'product' ),
             array(
-                'public' => true,
-                'show_ui' => true,
+       
                 'hierarchical' => true,
-                '_builtin'     => false,
                 'capabilities' => array(
                         'manage_terms' => 'manage_product_categories', 
                         ),
@@ -81,16 +74,15 @@ function register_product_posttype(){
                         'manage_products',
                         ),
 
+                'supports' => array('title','editor','thumbnail','custom','comments'),
+
                 'publicly_queryable' => true,
                 'exclude_from_search' => false,
                 'show_in_nav_menus'  => true,
                 'show_ui' => true,
                 'menu_position' => 5,
-
-                'query_var' => true,
-                'rewrite' => true,
                 'hierarchical' => false,                
-                'supports' => array('title','editor','thumbnail','custom','comments'),
+                
                 'taxonomies' => array('product_category'),                
                 )
     );
