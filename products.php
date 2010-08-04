@@ -61,9 +61,10 @@ function register_product_category_taxonomy(){
 function register_product_posttype(){
 
     register_post_type('product', array(
+
                 'labels' =>  array(
                     'name' => 'Products',
-                    'singular_name' => 'Product',
+                    'singular_name' => 'Product',                    
                     'add_new' => 'Add New',
                     'add_new_item' => 'Add New Product',
                     'edit_item' => 'Edit Product',
@@ -74,19 +75,23 @@ function register_product_posttype(){
                     'not_found_in_trash' => 'No products found in Trash',
                     'parent_item_colon' => 'Parent Product'
                 ),
+
+                'description'   => 'Product custom post type description',
                 'capabilities'   => array(
                         'manage_products',
                         ),
-                'public' => false,
+
                 'publicly_queryable' => true,
+                'exclude_from_search' => false,
+                'show_in_nav_menus'  => true,
                 'show_ui' => true,
+                'menu_position' => 5,
+
                 'query_var' => true,
                 'rewrite' => true,
-                'hierarchical' => false,
-                'menu_position' => 5,
+                'hierarchical' => false,                
                 'supports' => array('title','editor','thumbnail','custom','comments'),
-                'taxonomies' => array('product_category'),
-                 '_builtin' => false,
+                'taxonomies' => array('product_category'),                
                 )
     );
 

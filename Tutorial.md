@@ -74,6 +74,7 @@
         function register_product_posttype(){
 
             register_post_type('product', array(
+
                         'labels' =>  array(
                             'name' => 'Products',
                             'singular_name' => 'Product',
@@ -87,19 +88,25 @@
                             'not_found_in_trash' => 'No products found in Trash',
                             'parent_item_colon' => 'Parent Product'
                         ),
+
+                        'description'   => 'Product custom post type description',
                         'capabilities'   => array(
                                 'manage_products',
                                 ),
-                        'public' => true,
+
+                        'supports' => array('title','editor','thumbnail','custom','comments'),
+
                         'publicly_queryable' => true,
+                        'exclude_from_search' => false,
+                        'show_in_nav_menus'  => true,
                         'show_ui' => true,
+                        'menu_position' => 5,
+
                         'query_var' => true,
                         'rewrite' => true,
                         'hierarchical' => false,
-                        'menu_position' => 5,
-                        'supports' => array('title','editor','thumbnail','custom','comments'),
+
                         'taxonomies' => array('product_category'),
-                         '_builtin' => false,
                         )
             );
         }
@@ -108,8 +115,34 @@
 
 `register_post_type($post_type, $args);`
 
+### Parameters:
 * `$post_type` is the handle used by Wordpress to identify this post type. It can also be used to add custom taxonomies or additional fields or meta boxes to the post type's editing page.
-* `$args` contains the post type's configuration, from text that appears in menus and editing forms to capabilities and editor features.
+* `$args` contains an array of arguments, which defines the post type's behavior, from text that appears in menus and editing forms to capabilities and editor features.
+
+### Arguments:
+
+*labels*
+* _(optional)_ labels - An array of labels for this post type. Basicaly these labels are used as text in the admin area, in the post type's editing pages. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+
+*description*
+* _(optional)_ A short descriptive summary of what the post type is.
+
+*capabilities*
+*_(array) (optional)_ An array of the capabilities for this post type. You can define specific capabilities for editing, deleting or publishing a post type as [seen here](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments). We used one capability to handle all actions. By default the *post* capabilities are used, meaning that any user that can edit a post, can also edit a product. [More Info](http://codex.wordpress.org/Function_Reference/register_post_type#Arguments)
+
+*supports*
+*_(array) (optional)_ Tells the post type to use WordPress features like a title field, editor or post thumbnail.
+* *valid arguments:*
+**'title'
+**'editor' (content)
+**'author'
+**'thumbnail' (featured image) (current theme must also support post-thumbnails)
+**'excerpt'
+**'trackbacks'
+**'custom-fields'
+**'comments' (also will see comment count balloon on edit screen)
+**'revisions' (will store revisions)
+**'page-attributes' (template and menu order) (hierarchical must be true)
 
 # Creating the product categories taxonomy
 
